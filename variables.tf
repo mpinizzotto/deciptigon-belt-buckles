@@ -1,5 +1,6 @@
-variable "region" {
-  default = "default"
+variable "profile" {
+  description = "aws cli profile"
+  default     = "default"
 }
 
 variable "east" {
