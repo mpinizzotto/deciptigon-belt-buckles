@@ -46,7 +46,33 @@ resource "aws_subnet" "subnet-east-2" {
   }
 }
 
-##########################################
+
+#create route table in us-east-1
+resource "aws_route_table" "east-rt" {
+  provider = aws.region-east
+  vpc_id = aws_vpc.vpc-east.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw-east.id
+  }
+  route {
+    cidr_block = 10.217.0.0/16
+    vpc_peering_connection_id = aws_vpc_peering_connection.vpc-peering.id
+  }
+  lifecycle {
+    ignore_changes = all
+  }
+  tags = {
+    Name = "east-rt"
+
+#change default route-table
+resource "aws_main_route_table_association" "default-rt-association-east"
+  provider = aws.region-east
+  vpc_id = aws_vpc.vpc-east.id
+  route_table_id = aws_route_table.east-rt.id
+
+
+############################################################
 
 #Get AZ from region us-west-2
 data "aws_availability_zones" "azs-west" {
@@ -87,4 +113,57 @@ resource "aws_subnet" "subnet-west-2" {
     Name = "subnet-west-1"
   }
 }
+
+
+#create route table in us-west-2
+resource "aws_route_table" "west-rt" {
+  provider = aws.region-west
+  vpc_id = aws_vpc.vpc-west.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw-west.id
+  }
+  route {
+    cidr_block = 10.216.0.0/16
+    vpc_peering_connection_id = aws_vpc_peering_connection.vpc-peering.id
+  }
+  lifecycle {
+    ignore_changes = all
+  }
+  tags = {
+    Name = "west-rt"
+
+
+#change default route-table
+resource "aws_main_route_table_association" "default-rt-association-west"
+  provider = aws.region-west
+  vpc_id = aws_vpc.vpc-west.id
+  route_table_id = aws_route_table.west-rt.id
+
+
+
+
+
+
+################################################################
+
+
+#vpc peering between us-east-1 and us-west-2
+resource aws_vpc_peering_connection" "vpc-peering" {
+  provider = aws.region-east
+  peer_vpc_id = aws_vpc.vpc-west.id
+  vpc_id = aws_vpc.vpc-east.id
+  peer_region = var.region-west
+}
+
+#vpc peering acceptance 
+resource "aws_vpc_peering_connection_acceptance" "vpc-acceptance" {
+  provider = aws.region-west
+  vpc_peering_connection_id = aws_vpc_peering_connection.vpc-peering.id
+  auto_accept = true
+}
+
+
+
+
 
