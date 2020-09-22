@@ -3,6 +3,6 @@ terraform {
     region  = "us-east-1"
     profile = "default"
     key     = "terraform/terraformstate"
-    bucket  = "deciptigon-bucket"
+    bucket  = "terraform-bucket567"
   }
 }
