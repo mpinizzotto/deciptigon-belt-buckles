@@ -43,7 +43,7 @@ resource "aws_instance" "instance-east" {
   vpc_security_group_ids      = [aws_security_group.web-sg-east.id]
   subnet_id                   = aws_subnet.subnet-east-1.id
   associate_public_ip_address = true
-  user_data = data.template_file.user-init.rendered
+  user_data                   = data.template_file.user-init.rendered
 }
 
 resource "aws_key_pair" "project-keys-west" {
@@ -63,7 +63,7 @@ resource "aws_instance" "instance-west" {
   vpc_security_group_ids      = [aws_security_group.web-sg-west.id]
   subnet_id                   = aws_subnet.subnet-west-2.id
   associate_public_ip_address = true
-  user_data = data.template_file.user-init.rendered 
+  user_data                   = data.template_file.user-init.rendered
 }
 
 

@@ -3,6 +3,10 @@ variable "profile" {
   default     = "default"
 }
 
+variable "region" {
+  default = "us-east-1"
+}
+
 variable "east" {
   default = "us-east-1"
 }
