@@ -47,8 +47,8 @@ resource "aws_security_group" "web-sg-east" {
 
   ingress {
     description     = "Allow traffic from lb"
-    from_port       = 80
-    to_port         = 80
+    from_port       = 8080
+    to_port         = 8080
     protocol        = "tcp"
     security_groups = [aws_security_group.lb-sg-east.id]
   }
@@ -118,8 +118,8 @@ resource "aws_security_group" "web-sg-west" {
 
   ingress {
     description     = "Allow traffic from lb"
-    from_port       = 80
-    to_port         = 80
+    from_port       = 8080
+    to_port         = 8080
     protocol        = "tcp"
     security_groups = [aws_security_group.lb-sg-west.id]
   }
