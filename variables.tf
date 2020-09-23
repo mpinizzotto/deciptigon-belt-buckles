@@ -11,6 +11,8 @@ variable "west" {
   default = "us-west-2"
 }
 
-
+variable "external-ip" {
+  default = "0.0.0.0/0"
+}
 
 
