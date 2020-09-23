@@ -15,4 +15,6 @@ variable "external-ip" {
   default = "0.0.0.0/0"
 }
 
-
+variable "public-key-path" {
+  default = "/home/cloud_user/.ssh/id_rsa.pub"
+}

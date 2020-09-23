@@ -3,6 +3,6 @@ terraform {
     region  = "us-east-1"
     profile = "default"
     key     = "terraform/terraformstate"
-    bucket  = "terraform-bucket567"
+    bucket  = "terraformmp123"
   }
 }
