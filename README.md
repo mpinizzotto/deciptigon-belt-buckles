@@ -1,2 +1,2 @@
 # deciptigon-belt-buckles
-Uses Terraform and Ansible to deploy multi-region web application
+Uses Terraform and to deploy multi-region web application
