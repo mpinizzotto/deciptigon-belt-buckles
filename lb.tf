@@ -1,3 +1,5 @@
+
+
 resource "aws_lb" "lb-east" {
   provider           = aws.region-east
   name               = "lb-east"
@@ -21,6 +23,7 @@ resource "aws_lb" "lb-east" {
 }
 
 resource "aws_lb_target_group" "lb-tg-east" {
+  provider = aws.region-east
   name     = "lb-tg-east"
   port     = 8080
   protocol = "HTTP"
@@ -40,6 +43,7 @@ resource "aws_lb_target_group" "lb-tg-east" {
 }
 
 resource "aws_lb_target_group_attachment" "lb-tg-east" {
+  provider = aws.region-east
   count            = var.instance-count
   target_group_arn = aws_lb_target_group.lb-tg-east.arn
   target_id        = aws_instance.instance-east.*.id[count.index]
@@ -58,7 +62,7 @@ resource "aws_lb_listener" "lb-east" {
   }
 }
 
-############################################################
+###########################################################
 
 
 resource "aws_lb" "lb-west" {
@@ -74,7 +78,7 @@ resource "aws_lb" "lb-west" {
 
   #  access_logs {
   #    bucket  = aws_s3_bucket.lb_logs.bucket
-  #    prefix  = "lb-west"
+  #    prefix  = "LB-West-"
   #    enabled = true
   #  }
 
@@ -83,8 +87,8 @@ resource "aws_lb" "lb-west" {
   }
 }
 
-
 resource "aws_lb_target_group" "lb-tg-west" {
+  provider = aws.region-west
   name     = "lb-tg-west"
   port     = 8080
   protocol = "HTTP"
@@ -104,6 +108,7 @@ resource "aws_lb_target_group" "lb-tg-west" {
 }
 
 resource "aws_lb_target_group_attachment" "lb-tg-west" {
+  provider = aws.region-west
   count            = var.instance-count
   target_group_arn = aws_lb_target_group.lb-tg-west.arn
   target_id        = aws_instance.instance-west.*.id[count.index]
@@ -112,8 +117,9 @@ resource "aws_lb_target_group_attachment" "lb-tg-west" {
 
 
 resource "aws_lb_listener" "lb-west" {
+  provider = aws.region-west
   load_balancer_arn = aws_lb.lb-west.arn
-  port              = 80
+  port              = "80"
   protocol          = "HTTP"
 
   default_action {
@@ -121,20 +127,4 @@ resource "aws_lb_listener" "lb-west" {
     target_group_arn = aws_lb_target_group.lb-tg-west.arn
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
