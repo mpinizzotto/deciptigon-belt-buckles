@@ -42,7 +42,7 @@ resource "aws_lb_target_group" "lb-tg-east" {
 }
 
 resource "aws_lb_target_group_attachment" "lb-tg-east" {
-  provider = aws.region-east
+  provider         = aws.region-east
   count            = var.instance-count
   target_group_arn = aws_lb_target_group.lb-tg-east.arn
   target_id        = aws_instance.instance-east.*.id[count.index]
@@ -51,7 +51,7 @@ resource "aws_lb_target_group_attachment" "lb-tg-east" {
 
 
 resource "aws_lb_listener" "lb-east" {
-  provider = aws.region-east
+  provider          = aws.region-east
   load_balancer_arn = aws_lb.lb-east.arn
   port              = "80"
   protocol          = "HTTP"
@@ -108,7 +108,7 @@ resource "aws_lb_target_group" "lb-tg-west" {
 }
 
 resource "aws_lb_target_group_attachment" "lb-tg-west" {
-  provider = aws.region-west
+  provider         = aws.region-west
   count            = var.instance-count
   target_group_arn = aws_lb_target_group.lb-tg-west.arn
   target_id        = aws_instance.instance-west.*.id[count.index]
@@ -117,7 +117,7 @@ resource "aws_lb_target_group_attachment" "lb-tg-west" {
 
 
 resource "aws_lb_listener" "lb-west" {
-  provider = aws.region-west
+  provider          = aws.region-west
   load_balancer_arn = aws_lb.lb-west.arn
   port              = "80"
   protocol          = "HTTP"
