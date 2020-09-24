@@ -4,6 +4,7 @@ variable "profile" {
 }
 
 variable "region" {
+  description = "default region"
   default = "us-east-1"
 }
 
@@ -12,7 +13,7 @@ variable "east" {
 }
 
 variable "west" {
-  default = "us-west-2"
+  default = "us-west-1"
 }
 
 variable "external-ip" {

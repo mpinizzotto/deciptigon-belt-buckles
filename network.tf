@@ -1,10 +1,10 @@
-#Get AZ from region us-east-1
+
 data "aws_availability_zones" "azs-east" {
   provider = aws.region-east
   state    = "available"
 }
 
-#create vpc in us-east-1
+
 resource "aws_vpc" "vpc-east" {
   provider             = aws.region-east
   cidr_block           = "10.216.0.0/16"
@@ -15,7 +15,7 @@ resource "aws_vpc" "vpc-east" {
   }
 }
 
-#create igw in us-east-1
+
 resource aws_internet_gateway "igw-east" {
   provider = aws.region-east
   vpc_id   = aws_vpc.vpc-east.id
@@ -24,8 +24,8 @@ resource aws_internet_gateway "igw-east" {
   }
 }
 
-#create subnet-1 in us-east-1
-resource "aws_subnet" "subnet-east-1" {
+
+resource "aws_subnet" "subnet-east" {
   provider          = aws.region-east
   count             = 2
   availability_zone = data.aws_availability_zones.azs-east.names[count.index]
@@ -36,7 +36,6 @@ resource "aws_subnet" "subnet-east-1" {
   }
 }
 
-#create route table in us-east-1
 resource "aws_route_table" "east-rt" {
   provider = aws.region-east
   vpc_id   = aws_vpc.vpc-east.id
@@ -56,7 +55,6 @@ resource "aws_route_table" "east-rt" {
   }
 }
 
-#change default route-table
 resource "aws_main_route_table_association" "default-rt-association-east" {
   provider       = aws.region-east
   vpc_id         = aws_vpc.vpc-east.id
@@ -65,14 +63,13 @@ resource "aws_main_route_table_association" "default-rt-association-east" {
 
 ############################################################
 
-#Get AZ from region us-west-2
+
 data "aws_availability_zones" "azs-west" {
   provider = aws.region-west
   state    = "available"
 }
 
 
-#create vpc in us-west-2
 resource "aws_vpc" "vpc-west" {
   provider             = aws.region-west
   cidr_block           = "10.217.0.0/16"
@@ -84,7 +81,6 @@ resource "aws_vpc" "vpc-west" {
 }
 
 
-#create igw in us-west-2
 resource aws_internet_gateway "igw-west" {
   provider = aws.region-west
   vpc_id   = aws_vpc.vpc-west.id
@@ -94,8 +90,7 @@ resource aws_internet_gateway "igw-west" {
 }
 
 
-#create subnet in us-west-2
-resource "aws_subnet" "subnet-west-2" {
+resource "aws_subnet" "subnet-west" {
   provider          = aws.region-west
   count             = 2
   availability_zone = data.aws_availability_zones.azs-west.names[count.index]
@@ -107,7 +102,6 @@ resource "aws_subnet" "subnet-west-2" {
 }
 
 
-#create route table in us-west-2
 resource "aws_route_table" "west-rt" {
   provider = aws.region-west
   vpc_id   = aws_vpc.vpc-west.id
@@ -127,7 +121,6 @@ resource "aws_route_table" "west-rt" {
   }
 }
 
-#change default route-table
 resource "aws_main_route_table_association" "default-rt-association-west" {
   provider       = aws.region-west
   vpc_id         = aws_vpc.vpc-west.id

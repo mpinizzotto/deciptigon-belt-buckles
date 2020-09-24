@@ -42,7 +42,7 @@ resource "aws_instance" "instance-east" {
   }
   key_name                    = aws_key_pair.project-keys-east.id
   vpc_security_group_ids      = [aws_security_group.web-sg-east.id]
-  subnet_id                   = element(aws_subnet.subnet-east-1.*.id, count.index)
+  subnet_id                   = element(aws_subnet.subnet-east.*.id, count.index)
   associate_public_ip_address = true
   user_data                   = data.template_file.user-init.rendered
 }
@@ -63,7 +63,7 @@ resource "aws_instance" "instance-west" {
   }
   key_name                    = aws_key_pair.project-keys-west.id
   vpc_security_group_ids      = [aws_security_group.web-sg-west.id]
-  subnet_id                   = element(aws_subnet.subnet-west-2.*.id, count.index)
+  subnet_id                   = element(aws_subnet.subnet-west.*.id, count.index)
   associate_public_ip_address = true
   user_data                   = data.template_file.user-init.rendered
 }

@@ -1,7 +1,7 @@
 resource "aws_lb" "lb-east" {
   provider           = aws.region-east
   name               = "lb-east"
-  subnets            = aws_subnet.subnet-east-1.*.id
+  subnets            = aws_subnet.subnet-east.*.id
   security_groups    = [aws_security_group.lb-sg-east.id]
   ip_address_type    = "ipv4"
   internal           = false
@@ -11,7 +11,7 @@ resource "aws_lb" "lb-east" {
 
   #  access_logs {
   #    bucket  = aws_s3_bucket.lb_logs.bucket
-  #    prefix  = "test-lb"
+  #    prefix  = "LB-East-"
   #    enabled = true
   #  }
 
@@ -20,8 +20,8 @@ resource "aws_lb" "lb-east" {
   }
 }
 
-resource "aws_lb_target_group" "lb-east" {
-  name     = "tg-east"
+resource "aws_lb_target_group" "lb-tg-east" {
+  name     = "lb-tg-east"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = aws_vpc.vpc-east.id
@@ -39,9 +39,9 @@ resource "aws_lb_target_group" "lb-east" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "lb-east" {
+resource "aws_lb_target_group_attachment" "lb-tg-east" {
   count            = var.instance-count
-  target_group_arn = aws_lb_target_group.lb-east.arn
+  target_group_arn = aws_lb_target_group.lb-tg-east.arn
   target_id        = aws_instance.instance-east.*.id[count.index]
   port             = 8080
 }
@@ -49,12 +49,12 @@ resource "aws_lb_target_group_attachment" "lb-east" {
 
 resource "aws_lb_listener" "lb-east" {
   load_balancer_arn = aws_lb.lb-east.arn
-  port              = "8080"
+  port              = "80"
   protocol          = "HTTP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.lb-east.arn
+    target_group_arn = aws_lb_target_group.lb-tg-east.arn
   }
 }
 
@@ -64,7 +64,7 @@ resource "aws_lb_listener" "lb-east" {
 resource "aws_lb" "lb-west" {
   provider           = aws.region-west
   name               = "lb-west"
-  subnets            = aws_subnet.subnet-west-2.*.id
+  subnets            = aws_subnet.subnet-west.*.id
   security_groups    = [aws_security_group.lb-sg-west.id]
   ip_address_type    = "ipv4"
   internal           = false
@@ -74,7 +74,7 @@ resource "aws_lb" "lb-west" {
 
   #  access_logs {
   #    bucket  = aws_s3_bucket.lb_logs.bucket
-  #    prefix  = "test-lb"
+  #    prefix  = "lb-west"
   #    enabled = true
   #  }
 
@@ -83,8 +83,9 @@ resource "aws_lb" "lb-west" {
   }
 }
 
-resource "aws_lb_target_group" "lb-west" {
-  name     = "tg-west"
+
+resource "aws_lb_target_group" "lb-tg-west" {
+  name     = "lb-tg-west"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = aws_vpc.vpc-west.id
@@ -102,9 +103,9 @@ resource "aws_lb_target_group" "lb-west" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "lb-west" {
+resource "aws_lb_target_group_attachment" "lb-tg-west" {
   count            = var.instance-count
-  target_group_arn = aws_lb_target_group.lb-west.arn
+  target_group_arn = aws_lb_target_group.lb-tg-west.arn
   target_id        = aws_instance.instance-west.*.id[count.index]
   port             = 8080
 }
@@ -112,12 +113,12 @@ resource "aws_lb_target_group_attachment" "lb-west" {
 
 resource "aws_lb_listener" "lb-west" {
   load_balancer_arn = aws_lb.lb-west.arn
-  port              = "8080"
+  port              = 80
   protocol          = "HTTP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.lb-west.arn
+    target_group_arn = aws_lb_target_group.lb-tg-west.arn
   }
 }
 
