@@ -22,3 +22,8 @@ variable "external-ip" {
 variable "public-key-path" {
   default = "/home/cloud_user/.ssh/id_rsa.pub"
 }
+
+variable "instance-count" {
+  description = "compute instance per region"
+  default     = 1
+}

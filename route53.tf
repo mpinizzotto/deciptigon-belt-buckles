@@ -12,8 +12,8 @@ resource "aws_route53_record" "blog-east" {
   #ttl     = "60"
 
   alias {
-    name                   = aws_elb.elb-east.dns_name
-    zone_id                = aws_elb.elb-east.zone_id
+    name                   = aws_lb.lb-east.dns_name
+    zone_id                = aws_lb.lb-east.zone_id
     evaluate_target_health = true
   }
 
@@ -32,8 +32,8 @@ resource "aws_route53_record" "blog-west" {
   type    = "A"
   #ttl = "60"
   alias {
-    name                   = aws_elb.elb-west.dns_name
-    zone_id                = aws_elb.elb-west.zone_id
+    name                   = aws_lb.lb-west.dns_name
+    zone_id                = aws_lb.lb-west.zone_id
     evaluate_target_health = true
   }
 

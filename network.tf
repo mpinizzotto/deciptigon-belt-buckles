@@ -27,22 +27,12 @@ resource aws_internet_gateway "igw-east" {
 #create subnet-1 in us-east-1
 resource "aws_subnet" "subnet-east-1" {
   provider          = aws.region-east
-  availability_zone = element(data.aws_availability_zones.azs-east.names, 0)
+  count             = 2
+  availability_zone = data.aws_availability_zones.azs-east.names[count.index]
   vpc_id            = aws_vpc.vpc-east.id
-  cidr_block        = "10.216.1.0/24"
+  cidr_block        = ["10.216.1.0/24", "10.216.2.0/24"][count.index]
   tags = {
-    Name = "subnet-east-1"
-  }
-}
-
-#create subnet-2 in us-east-1
-resource "aws_subnet" "subnet-east-2" {
-  provider          = aws.region-east
-  availability_zone = element(data.aws_availability_zones.azs-east.names, 1)
-  vpc_id            = aws_vpc.vpc-east.id
-  cidr_block        = "10.216.2.0/24"
-  tags = {
-    Name = "subnet-east-2"
+    Name = "subnet-${count.index + 1}-east"
   }
 }
 
@@ -107,11 +97,12 @@ resource aws_internet_gateway "igw-west" {
 #create subnet in us-west-2
 resource "aws_subnet" "subnet-west-2" {
   provider          = aws.region-west
-  availability_zone = element(data.aws_availability_zones.azs-west.names, 0)
+  count             = 2
+  availability_zone = data.aws_availability_zones.azs-west.names[count.index]
   vpc_id            = aws_vpc.vpc-west.id
-  cidr_block        = "10.217.1.0/24"
+  cidr_block        = ["10.217.1.0/24", "10.217.2.0/24"][count.index]
   tags = {
-    Name = "subnet-west-1"
+    Name = "subnet-${count.index + 1}-west"
   }
 }
 
