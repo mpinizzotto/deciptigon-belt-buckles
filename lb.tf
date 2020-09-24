@@ -1,5 +1,4 @@
 
-
 resource "aws_lb" "lb-east" {
   provider           = aws.region-east
   name               = "lb-east"
@@ -52,6 +51,7 @@ resource "aws_lb_target_group_attachment" "lb-tg-east" {
 
 
 resource "aws_lb_listener" "lb-east" {
+  provider = aws.region-east
   load_balancer_arn = aws_lb.lb-east.arn
   port              = "80"
   protocol          = "HTTP"

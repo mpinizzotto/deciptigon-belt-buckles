@@ -1,4 +1,4 @@
-#created dns record and setup weighted policy for traffic 
+#create dns record and setup weighted policy for traffic 
 
 data "aws_route53_zone" "hosted-zone" {
   name = "mattpinizzotto.com"
